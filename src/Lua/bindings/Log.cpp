@@ -89,8 +89,9 @@ namespace Terminus::LuaJIT
 				LOG(INFO) << LuaTostr(lua, args);
 			};
 
-			log["warning"] = [&](sol::variadic_args args) {
-				LOG(WARNING) << LuaTostr(L, args);
+			log["warning"] = [](sol::this_state s, sol::variadic_args args) {
+				sol::state_view lua(s);
+				LOG(WARNING) << LuaTostr(s, args);
 			};
 
 			log["debug"] = [](sol::this_state s, sol::variadic_args args) {

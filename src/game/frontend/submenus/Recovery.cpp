@@ -17,10 +17,9 @@
 
 namespace Terminus::Submenus
 {
-
-	static int loutTableRewardsAmount = 1;
-	static std::unique_ptr<BytePatch> infiniteItemsPatch{nullptr};
+	static int lootTableRewardsAmount = 1;
 	static bool infiniteItems;
+	static std::unique_ptr<BytePatch> infiniteItemsPatch{nullptr};
 	static Rewards::eRewardType selectedReward{Rewards::eRewardType::HEIRLOOMS};
 	static std::string selectedHerb{"HERB_LOOT_ALASKAN_GINSENG"};
 
@@ -149,7 +148,7 @@ namespace Terminus::Submenus
 				ImGui::EndCombo();
 			}
 
-			ImGui::SliderInt("Amount", &amount, 1, 10);
+			ImGui::SliderInt("Amount", &lootTableRewardsAmount, 1, 10);
 
 			if (ImGui::Button("Give Selected"))
 			{
@@ -160,7 +159,7 @@ namespace Terminus::Submenus
 						return;
 					}
 
-					for (int i = 0; i < amount; i++)
+					for (int i = 0; i < lootTableRewardsAmount; i++)
 						ScriptFunctions::GiveLootTableAward.StaticCall(Joaat(selectedHerb), 0);
 				});
 			}

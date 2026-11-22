@@ -134,24 +134,27 @@ namespace Terminus::LuaJIT
 			* param text<string> 
 			* param ...<any> Optional string format arguments
 			@*/
-			imguiTable["Text"] = [&](const std::string& fmt, sol::variadic_args args) {
-				ImGui::Text(LuaStringFormat(L, fmt, args).c_str());
+			imguiTable["Text"] = [](sol::this_state s, const std::string& fmt, sol::variadic_args args) {
+				sol::state_view lua(s);
+				ImGui::Text("%s", LuaStringFormat(lua, fmt, args).c_str());
 			};
 
 			/*@terminus.function ImGui.TextDisabled
 			* param text<string>
 			* param ...<any> Optional string format arguments
 			@*/
-			imguiTable["TextDisabled"] = [&](const std::string& fmt, sol::variadic_args args) {
-				ImGui::TextDisabled(LuaStringFormat(L, fmt, args).c_str());
+			imguiTable["TextDisabled"] = [](sol::this_state s, const std::string& fmt, sol::variadic_args args) {
+				sol::state_view lua(s);
+				ImGui::TextDisabled("%s", LuaStringFormat(lua, fmt, args).c_str());
 			};
 
 			/*@terminus.function ImGui.TextWrapped
 			* param text<string>
 			* param ...<any> Optional string format arguments
 			@*/
-			imguiTable["TextWrapped"] = [&](const std::string& fmt, sol::variadic_args args) {
-				ImGui::TextWrapped(LuaStringFormat(L, fmt, args).c_str());
+			imguiTable["TextWrapped"] = [](sol::this_state s, const std::string& fmt, sol::variadic_args args) {
+				sol::state_view lua(s);
+				ImGui::TextWrapped("%s", LuaStringFormat(lua, fmt, args).c_str());
 			};
 
 			/*@terminus.function ImGui.TextUnformatted
@@ -166,16 +169,18 @@ namespace Terminus::LuaJIT
 			* param text<string>
 			* param ...<any> Optional string format arguments
 			@*/
-			imguiTable["TextColored"] = [&](const ImVec4& col, const std::string& fmt, sol::variadic_args args) {
-				ImGui::TextColored(col, LuaStringFormat(L, fmt, args).c_str());
+			imguiTable["TextColored"] = [](sol::this_state s, const ImVec4& col, const std::string& fmt, sol::variadic_args args) {
+				sol::state_view lua(s);
+				ImGui::TextColored(col, "%s", LuaStringFormat(lua, fmt, args).c_str());
 			};
 
 			/*@terminus.function ImGui.BulletText
 			* param text<string>
 			* param ...<any> Optional string format arguments
 			@*/
-			imguiTable["BulletText"] = [&](const std::string& fmt, sol::variadic_args args) {
-				ImGui::BulletText(LuaStringFormat(L, fmt, args).c_str());
+			imguiTable["BulletText"] = [](sol::this_state s, const std::string& fmt, sol::variadic_args args) {
+				sol::state_view lua(s);
+				ImGui::BulletText("%s", LuaStringFormat(lua, fmt, args).c_str());
 			};
 
 			/*@terminus.function ImGui.Button
@@ -256,8 +261,11 @@ namespace Terminus::LuaJIT
 			    [](float fraction) {
 				    ImGui::ProgressBar(fraction);
 			    },
-			    [](float fraction, ImVec2 size, sol::optional<std::string> overlay) {
-				    ImGui::ProgressBar(fraction, size, overlay.value_or("").c_str());
+			    [](float fraction, const ImVec2& size) {
+				    ImGui::ProgressBar(fraction, size);
+			    },
+			    [](float fraction, const ImVec2& size, const std::string& fmt) {
+				    ImGui::ProgressBar(fraction, size, fmt.c_str());
 			    });
 
 
@@ -769,7 +777,8 @@ namespace Terminus::LuaJIT
 			@*/
 			imguiTable["InputInt"] = sol::overload(
 			    [](const std::string& label, int v, sol::optional<int> step) {
-				    bool changed = ImGui::InputInt(label.c_str(), &v);
+				    const int& _step = step.value_or(-1);
+				    bool changed = ImGui::InputInt(label.c_str(), &v, _step < 0 ? 0 : _step);
 				    return std::make_tuple(v, changed);
 			    },
 			    [](const std::string& label, int v, int step, int stepFast, sol::optional<int> flags) {
@@ -805,8 +814,9 @@ namespace Terminus::LuaJIT
 			* return boolean changed
 			@*/
 			imguiTable["InputFloat"] = sol::overload(
-			    [](const std::string& label, float v) {
-				    bool changed = ImGui::InputFloat(label.c_str(), &v);
+			    [](const std::string& label, float v, sol::optional<float> step) {
+				    const float& _step = step.value_or(-1.0f);
+				    bool changed       = ImGui::InputFloat(label.c_str(), &v, _step < 0.0f ? 0.0f : _step);
 				    return std::make_tuple(v, changed);
 			    },
 			    [](const std::string& label, float v, float step, float stepFast, sol::optional<std::string> fmt) {
@@ -1475,21 +1485,22 @@ namespace Terminus::LuaJIT
 			* param text<string>
 			* param ...<any> Optional format args
 			@*/
-			imguiTable["SetTooltip"] = [&](const std::string& text, sol::variadic_args args) {
-				ImGui::SetTooltip(LuaStringFormat(L, text, args).c_str());
+			imguiTable["SetTooltip"] = [](sol::this_state s, const std::string& fmt, sol::variadic_args args) {
+				sol::state_view lua(s);
+				ImGui::SetTooltip("%s", LuaStringFormat(lua, fmt, args).c_str());
 			};
 
 			/*@terminus.function ImGui.BeginTooltip
 			*
 			@*/
-			imguiTable["BeginTooltip"] = [&]() {
+			imguiTable["BeginTooltip"] = []() {
 				ImGui::BeginTooltip();
 			};
 
 			/*@terminus.function ImGui.EndTooltip
 			*
 			@*/
-			imguiTable["EndTooltip"] = [&]() {
+			imguiTable["EndTooltip"] = []() {
 				ImGui::EndTooltip();
 			};
 

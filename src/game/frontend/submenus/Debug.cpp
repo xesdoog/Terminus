@@ -27,7 +27,7 @@ namespace Terminus::Submenus
 		std::string_view name;
 	} selectedIventoryItem;
 
-	static int inventoryArg1 = 2; // "CHARACTER"
+	static int inventoryType = 2;
 	static int inventoryItemHashBuff;
 
 	static CInventoryItem* GetInventoryItem(CInventoryItemList* list, uint32_t hash)
@@ -122,7 +122,7 @@ namespace Terminus::Submenus
 			}
 
 			ImGui::SeparatorText("Inventory Stuff");
-			ImGui::InputInt("p1", &inventoryArg1);
+			ImGui::InputInt("p1", &inventoryType);
 
 			if (ImGui::Button("Dump"))
 			{
@@ -133,14 +133,14 @@ namespace Terminus::Submenus
 						return;
 					}
 
-					auto list = Pointers.GetInventoryList(*reinterpret_cast<uint64_t*>(Pointers.InventoryPool), inventoryArg1 /*inventory type?*/);
+					auto list = Pointers.GetInventoryList(*reinterpret_cast<uint64_t*>(Pointers.InventoryPool), inventoryType);
 					if (!list)
 					{
 						LOG(FATAL) << "GetInventoryList returned garbage data!";
 						return;
 					}
 
-					LOG(VERBOSE) << "Inventory: " << inventoryArg1 << " | Item count : " << list->m_items.count();
+					LOG(VERBOSE) << "Inventory: " << inventoryType << " | Item count : " << list->m_items.count();
 
 					for (auto& item : list->m_items)
 						LOG(VERBOSE) << "Hash: " << item->m_info->m_hash << " | Amount: " << item->m_amount;
@@ -148,14 +148,14 @@ namespace Terminus::Submenus
 			}
 			
 			ImGui::Spacing();
-			ImGui::InputInt("Item Hash", &inventoryItemHashBuff);
+			ImGui::InputInt("Item Hash", &inventoryItemHashBuff, 0, 0);
 			if (inventoryItemHashBuff)
 			{
 				ImGui::SameLine();
 				if (ImGui::Button("Get"))
 				{
 					FiberPool::Push([]() {
-						auto list = Pointers.GetInventoryList(*reinterpret_cast<uint64_t*>(Pointers.InventoryPool), inventoryArg1);
+						auto list = Pointers.GetInventoryList(*reinterpret_cast<uint64_t*>(Pointers.InventoryPool), inventoryType);
 						if (!list)
 						{
 							LOG(FATAL) << "GetInventoryList returned garbage data!";
@@ -174,7 +174,8 @@ namespace Terminus::Submenus
 						uint32_t currentCount = selectedIventoryItem.pItem->m_amount;
 
 						selectedIventoryItem.maxStack = maxCount > currentCount ? maxCount : currentCount;
-						selectedIventoryItem.name     = HUD::GET_STRING_FROM_HASH_KEY(inventoryItemHashBuff);
+						std::string_view name         = HUD::GET_STRING_FROM_HASH_KEY(inventoryItemHashBuff);
+						selectedIventoryItem.name     = name.empty() ? std::to_string(inventoryItemHashBuff) : name;
 					});
 				}
 			}
@@ -186,6 +187,12 @@ namespace Terminus::Submenus
 				int amt = static_cast<int>(selectedIventoryItem.pItem->m_amount);
 				if (ImGui::SliderInt("Amount", &amt, 0, selectedIventoryItem.maxStack))
 					selectedIventoryItem.pItem->m_amount = static_cast<uint32_t>(amt);
+
+				if (ImGui::Button("Log Address"))
+					LOGF(VERBOSE,
+					    "{} at 0x{:X}",
+					    selectedIventoryItem.name,
+					    reinterpret_cast<uintptr_t>(selectedIventoryItem.pItem));
 			}
 		}));
 		AddCategory(std::move(debug));
