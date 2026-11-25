@@ -78,7 +78,7 @@ namespace Terminus::LuaJIT
 			auto scrLocal = L.new_usertype<ScriptLocal>(
 			    "ScriptLocal",
 			    // clang-format off
-				sol::call_constructor, sol::constructors<ScriptLocal(std::string_view, size_t), ScriptLocal(joaat_t, size_t)>(),
+				sol::call_constructor, sol::constructors<ScriptLocal(const std::string&, size_t), ScriptLocal(joaat_t, size_t)>(),
 
 				sol::meta_method::addition, [](ScriptLocal& self, int offset) {
 					return self.At(offset);

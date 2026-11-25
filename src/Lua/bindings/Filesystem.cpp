@@ -228,7 +228,7 @@ namespace Terminus::LuaJIT
 				sol::state_view Lua(s);
 				auto io                        = Lua["io"];
 				sol::protected_function ioOpen = io["open"];
-				return ioOpen(self.Get().filename().u8string().c_str(), mode);
+				return ioOpen(self.Get().u8string().c_str(), mode);
 			};
 
 			pathCls["ToString"] = [](const LuaPath& self) {

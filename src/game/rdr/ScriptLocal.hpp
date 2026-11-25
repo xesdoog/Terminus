@@ -36,7 +36,7 @@ namespace Terminus
 		{
 		}
 
-		constexpr ScriptLocal(std::string_view script, std::size_t index) :
+		constexpr ScriptLocal(const std::string& script, std::size_t index) :
 		    ScriptLocal(Scripts::FindScriptThread(Joaat(script))->m_Stack, index)
 		{
 		}

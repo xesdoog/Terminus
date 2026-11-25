@@ -24,7 +24,7 @@ namespace Terminus::Submenus
 	{
 		CInventoryItem* pItem;
 		int maxStack;
-		std::string_view name;
+		std::string name;
 	} selectedIventoryItem;
 
 	static int inventoryType = 2;
@@ -174,7 +174,7 @@ namespace Terminus::Submenus
 						uint32_t currentCount = selectedIventoryItem.pItem->m_amount;
 
 						selectedIventoryItem.maxStack = maxCount > currentCount ? maxCount : currentCount;
-						std::string_view name         = HUD::GET_STRING_FROM_HASH_KEY(inventoryItemHashBuff);
+						std::string name              = HUD::GET_STRING_FROM_HASH_KEY(inventoryItemHashBuff);
 						selectedIventoryItem.name     = name.empty() ? std::to_string(inventoryItemHashBuff) : name;
 					});
 				}
