@@ -1,4 +1,4 @@
-message(STATUS "Setting up LuaJIT 2.1")
+message(STATUS "Setting up LuaJIT v2.1")
 set(LUAJIT_BUILD_TOOL OFF)
 set(LUAJIT_FORCE_UTF8_FOPEN ON)
 
