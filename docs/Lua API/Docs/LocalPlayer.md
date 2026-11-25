@@ -7,7 +7,7 @@
 ## `GetPed`
 
 ```lua
-function LocalPlayer:GetPed() end
+function LocalPlayer.GetPed() end
 ```
 
 Returns the local player's [Ped](./Ped.md) class instance.
@@ -21,7 +21,7 @@ Returns the local player's [Ped](./Ped.md) class instance.
 ## `GetPlayer`
 
 ```lua
-function LocalPlayer:GetPlayer() end
+function LocalPlayer.GetPlayer() end
 ```
 
 Returns the local player's [Player](./Player.md) class instance.
@@ -35,7 +35,7 @@ Returns the local player's [Player](./Player.md) class instance.
 ## `GetMount`
 
 ```lua
-function LocalPlayer:GetMount() end
+function LocalPlayer.GetMount() end
 ```
 
 Returns the local player's mount if any.
@@ -49,7 +49,7 @@ Returns the local player's mount if any.
 ## `GetVehicle`
 
 ```lua
-function LocalPlayer:GetVehicle() end
+function LocalPlayer.GetVehicle() end
 ```
 
 Returns the local player's vehicle if any.
@@ -60,10 +60,30 @@ Returns the local player's vehicle if any.
 | --- | --- |
 | `Vehicle` | vehicle |
 
+## `GetInventoryList`
+
+```lua
+function LocalPlayer.GetInventoryList(inventoryType) end
+```
+
+Returns the local player's inventory list.
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `inventoryType` | `integer?` | Undocumented parameter. Defaults to 2. |
+
+### Returns
+
+| Type | Description |
+| --- | --- |
+| `PlayerInventory` | list |
+
 ## `Teleport`
 
 ```lua
-function LocalPlayer:Teleport(coords, loadGround) end
+function LocalPlayer.Teleport(coords, loadGround) end
 ```
 
 ### Parameters
@@ -71,4 +91,4 @@ function LocalPlayer:Teleport(coords, loadGround) end
 | Name | Type | Description |
 | --- | --- | --- |
 | `coords` | `Vector3` |  |
-| `loadGround` | `boolean?` | Optional: load ground at the coordinates before teleporting. Prevents falling through the map. |
+| `loadGround` | `boolean?` | Optional: load ground at the coordinates before teleporting. Defaults to `true` |
