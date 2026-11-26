@@ -4,9 +4,9 @@
 
 namespace Terminus::Features
 {
-	static BoolCommand _DeadeyeCore{"keepdeadeyecorefilled", "Deadeye", "Keep Deadeye Core Filled", true};
-	static BoolCommand _StaminaCore{"keepstaminacorefilled", "Stamina", "Keep Stamina Core Filled", true};
-	static BoolCommand _HealthCore{"keephealthcorefilled", "Health", "Keep Health Core Filled", true};
+	static BoolCommand _DeadeyeCore{"keepdeadeyecorefilled", "Deadeye##cores", "Keep Deadeye Core Filled", true};
+	static BoolCommand _StaminaCore{"keepstaminacorefilled", "Stamina##cores", "Keep Stamina Core Filled", true};
+	static BoolCommand _HealthCore{"keephealthcorefilled", "Health##cores", "Keep Health Core Filled", true};
 
 	class KeepCoresFilled : public LoopedCommand
 	{

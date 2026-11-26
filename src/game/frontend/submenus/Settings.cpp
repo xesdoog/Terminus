@@ -49,20 +49,24 @@ namespace
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9, 0, 0, 1.0));
 				ImGui::PushStyleColor(ImGuiCol_TextDisabled, ImVec4(0.9, 0, 0, 0.5));
 			}
-			ImGui::Selectable(m->GetName().data(), (selectedModule && m == selectedModule));
 
-			if (isBroken && ImGui::IsItemHovered())
-			{
+			if (ImGui::Selectable(m->GetName().data(), (selectedModule && m == selectedModule)))
+				selectedModule = m;
+
+			if (isBroken)
 				ImGui::PopStyleColor(2);
-				std::string err = m->GetErrorMsg();
-				ImGui::SetTooltip(
-				    std::format("Unloaded due to a malfunction: '{}'", err.empty() ? "Unknown error." : err).c_str());
-			}
 
 			ImGui::EndDisabled();
 			ImGui::PopID();
 			if (ImGui::IsItemHovered())
+			{
 				ImGui::SetTooltip("Right click to open the context menu or drag to move to the disabled list.");
+				if (isBroken)
+				{
+					const std::string& err = m->GetErrorMsg();
+					ImGui::SetTooltip(std::format("Unloaded due to a malfunction: '{}'", err.empty() ? "Unknown error." : err).c_str());
+				}
+			}
 
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{

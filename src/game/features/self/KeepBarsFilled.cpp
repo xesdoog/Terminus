@@ -4,9 +4,9 @@
 
 namespace Terminus::Features
 {
-	static BoolCommand _Deadeye{"keepdeadeyefilled", "Deadeye", "Keep Deadeye Bar Filled", true};
-	static BoolCommand _Stamina{"keepstaminafilled", "Stamina", "Keep Stamina Bar Filled", true};
-	static BoolCommand _Health{"keephealthfilled", "Health", "Keep Health Bar Filled", true};
+	static BoolCommand _Deadeye{"keepdeadeyefilled", "Deadeye##bars", "Keep Deadeye Bar Filled", true};
+	static BoolCommand _Stamina{"keepstaminafilled", "Stamina##bars", "Keep Stamina Bar Filled", true};
+	static BoolCommand _Health{"keephealthfilled", "Health##bars", "Keep Health Bar Filled", true};
 
 	class KeepBarsFilled : public LoopedCommand
 	{

@@ -245,8 +245,9 @@ namespace Terminus::LuaJIT
 					return sqrt(self.x * self.x + self.y * self.y + self.z * self.z);
 				},
 
-				"IsZero", [](const Vector3& self) {
-					return self.x == 0 && self.y == 0 && self.z == 0;
+				"Distance", [](const Vector3& self, const Vector3& other) {
+					Vector3 sub = Vector3(self.x - other.x, self.y - other.y, self.z - other.z);
+					return sqrt(sub.x * sub.x + sub.y * sub.y + sub.z * sub.z);
 				},
 
 				"Lerp", [](const Vector3& self, const Vector3& other, const float& dt) {

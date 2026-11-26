@@ -234,7 +234,7 @@ namespace Terminus::Submenus
 		horseGlobalsGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			ImGui::Text("Horse Scale");
 			ImGui::SetNextItemWidth(100.0f);
-			if (ImGui::InputFloat(" ", &horseScale))
+			if (ImGui::InputFloat("##horseScale", &horseScale))
 				FiberPool::Push([] {
 					Terminus::Self::GetMount().SetScale(horseScale);
 				});

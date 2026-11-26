@@ -22,9 +22,9 @@ namespace Terminus::Submenus
 {
 	struct
 	{
-		CInventoryItem* pItem;
-		int maxStack;
-		std::string name;
+		CInventoryItem* pItem{};
+		int maxStack{};
+		std::string name{};
 	} selectedIventoryItem;
 
 	static int inventoryType = 2;
@@ -122,7 +122,7 @@ namespace Terminus::Submenus
 			}
 
 			ImGui::SeparatorText("Inventory Stuff");
-			ImGui::InputInt("p1", &inventoryType);
+			ImGui::InputInt("Inventory Type", &inventoryType);
 
 			if (ImGui::Button("Dump"))
 			{
