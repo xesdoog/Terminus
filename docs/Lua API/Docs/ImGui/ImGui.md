@@ -884,6 +884,12 @@ function ImGui.BeginCombo(label, preview, flags) end
 function ImGui.EndCombo() end
 ```
 
+## `SetItemDefaultFocus`
+
+```lua
+function ImGui.SetItemDefaultFocus() end
+```
+
 ## `ListBox`
 
 ```lua
@@ -1744,6 +1750,111 @@ function ImGui.GetFrameHeightWithSpacing() end
 | --- | --- |
 | `number` | frameHeight Frame height with spacing. |
 
+## `GetTime`
+
+```lua
+function ImGui.GetTime() end
+```
+
+### Returns
+
+| Type | Description |
+| --- | --- |
+| `number` | frameTime |
+
+## `SetWindowSize`
+
+```lua
+function ImGui.SetWindowSize(size, cond) end
+```
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `size` | `Vector2` | Window size |
+| `cond` | `integer?` | Optional [ImGuiCond](./ImGuiCond.md) |
+
+## `SetWindowSize`
+
+```lua
+function ImGui.SetWindowSize(name, size, cond) end
+```
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `name` | `string` | Window name |
+| `size` | `Vector2` | Window size |
+| `cond` | `integer?` | Optional [ImGuiCond](./ImGuiCond.md) |
+
+## `SetWindowPos`
+
+```lua
+function ImGui.SetWindowPos(pos, cond) end
+```
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `pos` | `Vector2` | New position |
+| `cond` | `integer?` | Optional [ImGuiCond](./ImGuiCond.md) |
+
+## `SetWindowPos`
+
+```lua
+function ImGui.SetWindowPos(name, pos, cond) end
+```
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `name` | `string` | Window name |
+| `pos` | `Vector2` | New position |
+| `cond` | `integer?` | Optional [ImGuiCond](./ImGuiCond.md) |
+
+## `SetNextWindowSize`
+
+```lua
+function ImGui.SetNextWindowSize(pos, cond) end
+```
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `pos` | `Vector2` |  |
+| `cond` | `integer?` | Optional [ImGuiCond](./ImGuiCond.md) |
+
+## `SetNextWindowSize`
+
+```lua
+function ImGui.SetNextWindowSize(size, cond) end
+```
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `size` | `Vector2` |  |
+| `cond` | `integer?` | Optional [ImGuiCond](./ImGuiCond.md) |
+
+## `SetNextWindowSizeConstraints`
+
+```lua
+function ImGui.SetNextWindowSizeConstraints(minSize, maxSize) end
+```
+
+### Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `minSize` | `Vector2` |  |
+| `maxSize` | `Vector2` |  |
+
 ## `SetNextItemWidth`
 
 ```lua
@@ -2140,8 +2251,15 @@ Draws a toggle widget that can be used instead of a regular ImGui checkbox.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `label` | `string` | Tooltip text |
-| `v` | `boolean` | Tooltip text |
+| `label` | `string` |  |
+| `v` | `boolean` |  |
+
+### Returns
+
+| Type | Description |
+| --- | --- |
+| `boolean` | value |
+| `boolean` | clicked |
 
 ## `Toggle`
 

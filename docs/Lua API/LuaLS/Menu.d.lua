@@ -30,12 +30,6 @@ function Menu.RegisterEventHandler(event, callback) end
 ---@param callback fun(playerId: integer, chatMsg: string) The function to execute.
 function Menu.RegisterEventHandler(event, callback) end
 
--- Registers an ImGui function to be drawn in the menu.
---
--- NOTE: This is currently a work in progress and each script is only allowed one callback registration.
----@param callback function 
-function Menu.RegisterImGui(callback) end
-
 ---@return Player player The currently selected player in the menu's player list.
 function Menu.GetSelectedPlayer() end
 

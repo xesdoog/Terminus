@@ -86,22 +86,6 @@ function Menu.RegisterEventHandler(event, callback) end
 | `event` | `eMenuEvent.ChatMessageReceived` | The event to handle. |
 | `callback` | `fun(playerId: integer, chatMsg: string)` | The function to execute. |
 
-## `RegisterImGui`
-
-```lua
-function Menu.RegisterImGui(callback) end
-```
-
-Registers an ImGui function to be drawn in the menu.
-
-NOTE: This is currently a work in progress and each script is only allowed one callback registration.
-
-### Parameters
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `callback` | `function` |  |
-
 ## `GetSelectedPlayer`
 
 ```lua

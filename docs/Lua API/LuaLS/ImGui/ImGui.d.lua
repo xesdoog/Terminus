@@ -260,6 +260,8 @@ function ImGui.BeginCombo(label, preview, flags) end
 
 function ImGui.EndCombo() end
 
+function ImGui.SetItemDefaultFocus() end
+
 ---@param label string 
 ---@param currentItem integer 
 ---@param items {[integer]: string} A table of strings. Must be a contiguous string array, anything else will be ignored.
@@ -537,6 +539,39 @@ function ImGui.GetFrameHeight() end
 ---@return number frameHeight Frame height with spacing.
 function ImGui.GetFrameHeightWithSpacing() end
 
+---@return number frameTime
+function ImGui.GetTime() end
+
+---@param size Vector2 Window size
+---@param cond integer? Optional [ImGuiCond](lua://ImGuiCond)
+function ImGui.SetWindowSize(size, cond) end
+
+---@param name string Window name
+---@param size Vector2 Window size
+---@param cond integer? Optional [ImGuiCond](lua://ImGuiCond)
+function ImGui.SetWindowSize(name, size, cond) end
+
+---@param pos Vector2 New position
+---@param cond integer? Optional [ImGuiCond](lua://ImGuiCond)
+function ImGui.SetWindowPos(pos, cond) end
+
+---@param name string Window name
+---@param pos Vector2 New position
+---@param cond integer? Optional [ImGuiCond](lua://ImGuiCond)
+function ImGui.SetWindowPos(name, pos, cond) end
+
+---@param pos Vector2 
+---@param cond integer? Optional [ImGuiCond](lua://ImGuiCond)
+function ImGui.SetNextWindowSize(pos, cond) end
+
+---@param size Vector2 
+---@param cond integer? Optional [ImGuiCond](lua://ImGuiCond)
+function ImGui.SetNextWindowSize(size, cond) end
+
+---@param minSize Vector2 
+---@param maxSize Vector2 
+function ImGui.SetNextWindowSizeConstraints(minSize, maxSize) end
+
 ---@param width number Width of the next item.
 function ImGui.SetNextItemWidth(width) end
 
@@ -637,8 +672,10 @@ function ImGui.PopStyleColor(count) end
 function ImGui.SetMouseCursor(cursorIdx) end
 
 -- Draws a toggle widget that can be used instead of a regular ImGui checkbox.
----@param label string Tooltip text
----@param v boolean Tooltip text
+---@param label string 
+---@param v boolean 
+---@return boolean value
+---@return boolean clicked
 function ImGui.Toggle(label, v) end
 
 -- Draws a toggle widget that can be used instead of a regular ImGui checkbox.
