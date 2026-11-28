@@ -156,25 +156,30 @@ namespace Terminus::Submenus
 		auto killPeds = std::make_shared<Group>("Kill", 1);
 		killPeds->AddItem(std::make_shared<CommandItem>("killallpeds"_J));
 		killPeds->AddItem(std::make_shared<CommandItem>("killallenemies"_J));
+		
 		auto deleteOpts = std::make_shared<Group>("Delete", 1);
 		deleteOpts->AddItem(std::make_shared<CommandItem>("delpeds"_J));
 		deleteOpts->AddItem(std::make_shared<CommandItem>("delvehs"_J));
 		deleteOpts->AddItem(std::make_shared<CommandItem>("delobjs"_J));
+		
 		auto bringOpts = std::make_shared<Group>("Bring", 1);
 		bringOpts->AddItem(std::make_shared<CommandItem>("bringpeds"_J));
 		bringOpts->AddItem(std::make_shared<CommandItem>("bringvehs"_J));
 		bringOpts->AddItem(std::make_shared<CommandItem>("bringobjs"_J));
+		
 		auto minigames = std::make_shared<Group>("Minigames", 1);
 		minigames->AddItem(std::make_shared<BoolCommandItem>("undeadnightmare"_J));
 		minigames->AddItem(std::make_shared<ConditionalItem>("undeadnightmare"_J, std::make_shared<BoolCommandItem>("zombieslogging"_J)));
 		minigames->AddItem(std::make_shared<ConditionalItem>("undeadnightmare"_J, std::make_shared<BoolCommandItem>("hardmode"_J)));
+		
 		auto misc = std::make_shared<Group>("Misc");
+		misc->AddItem(std::make_shared<CommandItem>("mapeditor"_J));
 		misc->AddItem(std::make_shared<BoolCommandItem>("disableguardzones"_J));
+		
 		auto eventOverride = std::make_shared<Group>("", 1);
 		eventOverride->AddItem(std::make_shared<BoolCommandItem>("eventoverrideenabled"_J));
 		eventOverride->AddItem(std::make_shared<ConditionalItem>("eventoverrideenabled"_J, std::make_shared<ListCommandItem>("eventoverride"_J)));
 		misc->AddItem(std::move(eventOverride));
-		misc->AddItem(std::make_shared<CommandItem>("mapeditor"_J));
 
 		main->AddItem(std::move(poolCounter));
 		main->AddItem(std::move(killPeds));
@@ -182,6 +187,8 @@ namespace Terminus::Submenus
 		main->AddItem(std::move(bringOpts));
 		main->AddItem(std::move(minigames));
 		main->AddItem(std::move(misc));
+
+		main->AddItem(std::make_shared<BoolCommandItem>("harrietsybau"_J));
 		main->AddItem(std::make_shared<BoolCommandItem>("fasttrain"_J));
 		main->AddItem(std::make_shared<BoolCommandItem>("pedsriot"_J));
 		main->AddItem(std::make_shared<ConditionalItem>("pedsriot"_J, std::make_shared<BoolCommandItem>("pedsriotfriendly"_J)));

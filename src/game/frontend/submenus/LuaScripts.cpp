@@ -47,16 +47,7 @@ namespace Terminus::Submenus
 				if (!cb.valid())
 					ImGui::TextWrapped("This module has no GUI to draw.");
 				else
-				{
-					auto res = cb();
-					if (!res.valid())
-					{
-						sol::error e = res;
-						auto msg     = e.what();
-						LOG(FATAL) << msg;
-						selectedModule->Suspend(msg);
-					}
-				}
+					selectedModule->DrawGuiCallback(cb);
 			}
 			ImGui::EndChild();
 		}));

@@ -115,16 +115,16 @@ namespace Terminus::Submenus
 		toxicGroup->AddItem(std::make_shared<CommandItem>("minhonorall"_J));
 
 		miscGroup->AddItem(std::make_shared<BoolCommandItem>("revealall"_J));
-		miscGroup->AddItem(std::make_shared<BoolCommandItem>("disableshopunavailable"_J)); // finish this
-		miscGroup->AddItem(std::make_shared<BoolCommandItem>("disablecampshopunavailable"_J));
-		miscGroup->AddItem(std::make_shared<BoolCommandItem>("disablecampraids"_J));
+		//miscGroup->AddItem(std::make_shared<BoolCommandItem>("disableshopunavailable"_J)); // finish this
+		//miscGroup->AddItem(std::make_shared<BoolCommandItem>("disablecampshopunavailable"_J)); // doesn't exist
+		//miscGroup->AddItem(std::make_shared<BoolCommandItem>("disablecampraids"_J)); // doesn't exist
 
 		miscGroup->AddItem(std::make_shared<BoolCommandItem>("blockalltelemetry"_J)); // move this to protections->misc
 		miscGroup->AddItem(std::make_shared<BoolCommandItem>("locklobby"_J));
 
 		miscGroup->AddItem(std::make_shared<CommandItem>("playmusic"_J));
 		miscGroup->AddItem(std::make_shared<CommandItem>("stopmusic"_J));
-		miscGroup->AddItem(std::make_shared<CommandItem>("flyballoon"_J));
+		//miscGroup->AddItem(std::make_shared<CommandItem>("flyballoon"_J)); // doesn't exist
 
 		session->AddItem(sessionSwitcherGroup);
 		session->AddItem(teleportGroup);
@@ -136,11 +136,9 @@ namespace Terminus::Submenus
 
 		database->AddItem(std::make_shared<ImGuiItem>([] {
 			ImGui::SetNextItemWidth(300.f);
-			ImGui::PushID(3);
-			ImGui::InputText("Player Name", search, sizeof(search));
-			ImGui::PopID();
+			ImGui::InputTextWithHint("##searchPlayers", "Player Name", search, sizeof(search));
 
-			if (ImGui::BeginListBox("###players", {180, static_cast<float>(*Pointers.ScreenResY - 400 - 38 * 4)}))
+			if (ImGui::BeginListBox("##players", {180, static_cast<float>(*Pointers.ScreenResY - 400 - 38 * 4)}))
 			{
 				auto& item_arr = g_PlayerDatabase->GetAllPlayers();
 				if (item_arr.size() > 0)
@@ -160,11 +158,11 @@ namespace Terminus::Submenus
 
 				ImGui::EndListBox();
 			}
+
 			if (auto selected = g_PlayerDatabase->GetSelected() && show_player_editor)
 			{
-				ImGui::PushID(1);
 				ImGui::SameLine();
-				if (ImGui::BeginChild("###selected_player", {500, static_cast<float>(*Pointers.ScreenResY - 388 - 38 * 4)}, false, ImGuiWindowFlags_NoBackground))
+				if (ImGui::BeginChild("##selected_player", {500, static_cast<float>(*Pointers.ScreenResY - 388 - 38 * 4)}, false, ImGuiWindowFlags_NoBackground))
 				{
 					if (ImGui::InputText("Name", name_buf, sizeof(name_buf)))
 					{
@@ -212,12 +210,13 @@ namespace Terminus::Submenus
 						show_player_editor = false;
 						show_new_player    = true;
 					}
-					ImGui::PopID();
+
+					ImGui::EndChild();
 				}
 			}
+
 			if (show_new_player)
 			{
-				ImGui::PushID(2);
 				ImGui::NewLine();
 				ImGui::InputText("Player Name", new_player_name_buf, sizeof(new_player_name_buf));
 				ImGui::InputScalar("RID", ImGuiDataType_U64, &new_player_rid);
@@ -226,7 +225,6 @@ namespace Terminus::Submenus
 					current_player = g_PlayerDatabase->GetOrCreatePlayer(new_player_rid, new_player_name_buf);
 					memset(new_player_name_buf, 0, sizeof(new_player_name_buf));
 				}
-				ImGui::PopID();
 			}
 		}));
 		static std::string nameBuf, colorBuf = "";

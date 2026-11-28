@@ -104,6 +104,7 @@ namespace Terminus::LuaJIT
 		std::unique_lock lock(m_TaskMutex);
 		m_Tasks.clear();
 		m_MenuEventCallbacks.clear();
+		m_IndependentGuiCallbacks.clear();
 		m_GuiCallback = {};
 
 		for (auto& patch : m_BytePatches)
@@ -157,7 +158,7 @@ namespace Terminus::LuaJIT
 			sol::error e = res;
 			LOG(FATAL) << "Failed to load module '" << m_Metadata.m_Name << "' : " << e.what();
 			Suspend(e.what());
-			return false; // TODO
+			return false;
 		}
 
 		LOG(INFO) << "Loaded module " << m_Metadata.m_Name;
@@ -328,6 +329,27 @@ namespace Terminus::LuaJIT
 		SetRequireFolder(pluginsPath);
 		SandboxIoLib();
 		SandboxOsLib();
+	}
+
+	void LuaModule::DrawGuiCallback(const sol::protected_function& callback)
+	{
+		if (m_LoadState == RUNNING && callback.valid())
+		{
+			auto res = callback();
+			if (!res.valid())
+			{
+				sol::error err  = res;
+				std::string msg = err.what();
+				LOG(FATAL) << msg;
+				Suspend(msg);
+			}
+		}
+	}
+
+	void LuaModule::DrawIndependentGuis()
+	{
+		for (const auto& cb : m_IndependentGuiCallbacks)
+			DrawGuiCallback(cb);
 	}
 
 	void LuaModule::OnFileEdit()

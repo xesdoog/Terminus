@@ -36,10 +36,14 @@ namespace Terminus
 			return ImGui::GetIO().WantTextInput;
 		}
 
+		static void OverrideMouse(bool state); // for Lua
+		static bool IsMouseOverridden(); //
+
 	private:
 		void WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 		static void ToggleMouse();
+
 		static GUI& GetInstance()
 		{
 			static GUI i{};

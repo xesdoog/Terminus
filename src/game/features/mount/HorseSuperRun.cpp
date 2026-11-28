@@ -11,16 +11,15 @@ namespace Terminus::Features
 
 		virtual void OnTick() override
 		{
-			if (Self::GetMount())
-			{
-				if (Self::GetMount().GetRagdoll())
+			auto mount = Self::GetMount();
+			if (!mount || mount.GetRagdoll())
 					return;
 
-				if (TASK::IS_PED_RUNNING(Self::GetMount().GetHandle()) || TASK::IS_PED_SPRINTING(Self::GetMount().GetHandle()))
-					ENTITY::APPLY_FORCE_TO_ENTITY(Self::GetMount().GetHandle(), 1, 0.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1, 1, 1, TRUE, FALSE, TRUE);
-			}
+			int handle = mount.GetHandle();
+			if (TASK::IS_PED_RUNNING(handle) || TASK::IS_PED_SPRINTING(handle))
+				ENTITY::APPLY_FORCE_TO_ENTITY(handle, 1, 0.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1, 1, 1, TRUE, FALSE, TRUE);
 		}
 	};
 
-	static HorseSuperRun _HorseSuperRun{"horsesuperrun", "Super Run", "Your horse will faster than normal"};
+	static HorseSuperRun _HorseSuperRun{"horsesuperrun", "Super Run", "Your horse will run faster than normal"};
 }

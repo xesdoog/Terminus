@@ -47,6 +47,8 @@ namespace Terminus::LuaJIT
 		void OnFileEdit();
 		void RegisterTask(sol::protected_function func, sol::this_state s);
 		void SandboxAPI(const fs::path& pluginsPath);
+		void DrawGuiCallback(const sol::protected_function& callback);
+		void DrawIndependentGuis();
 
 		std::string LuaFormatString(const std::string& fmt, sol::variadic_args args);
 
@@ -69,6 +71,7 @@ namespace Terminus::LuaJIT
 
 		bool m_UnloadFromCode{false}; // just for UnloadThisModule
 
+		std::vector<sol::protected_function> m_IndependentGuiCallbacks{};
 		std::vector<std::shared_ptr<BytePatch>> m_BytePatches{};
 		std::vector<void*> m_MemAllocs;
 

@@ -634,6 +634,13 @@ namespace Terminus::LuaJIT
 				ImGui::EndCombo();
 			};
 
+			/*@terminus.function ImGui.SetItemDefaultFocus
+			* 
+			@*/
+			imguiTable["SetItemDefaultFocus"] = []() {
+				ImGui::SetItemDefaultFocus();
+			};
+
 			/*@terminus.function ImGui.ListBox
 			* param label<string>
 			* param currentItem<integer>
@@ -1224,6 +1231,73 @@ namespace Terminus::LuaJIT
 				return ImGui::GetFrameHeightWithSpacing();
 			};
 
+			/*@terminus.function ImGui.GetTime
+			* return number frameTime
+			@*/
+			imguiTable["GetTime"] = []() {
+				return ImGui::GetTime();
+			};
+
+			/*@terminus.function ImGui.SetWindowSize
+			* param size<Vector2> Window size
+			* param cond<integer?> Optional [ImGuiCond](lua://ImGuiCond)
+			@*/
+
+			/*@terminus.function ImGui.SetWindowSize
+			* param name<string> Window name
+			* param size<Vector2> Window size
+			* param cond<integer?> Optional [ImGuiCond](lua://ImGuiCond)
+			@*/
+			imguiTable["SetWindowSize"] = sol::overload(
+			    [](const ImVec2& size, sol::optional<int> cond) {
+				    return ImGui::SetWindowSize(size, static_cast<ImGuiCond>(cond.value_or(0)));
+			    },
+			    [](const std::string& name, const ImVec2& size, sol::optional<int> cond) {
+				    return ImGui::SetWindowSize(name.c_str(), size, static_cast<ImGuiCond>(cond.value_or(0)));
+			    });
+
+			/*@terminus.function ImGui.SetWindowPos
+			* param pos<Vector2> New position
+			* param cond<integer?> Optional [ImGuiCond](lua://ImGuiCond)
+			@*/
+
+			/*@terminus.function ImGui.SetWindowPos
+			* param name<string> Window name
+			* param pos<Vector2> New position
+			* param cond<integer?> Optional [ImGuiCond](lua://ImGuiCond)
+			@*/
+			imguiTable["SetWindowPos"] = sol::overload(
+			    [](const ImVec2& pos, sol::optional<int> cond) {
+				    return ImGui::SetWindowPos(pos, static_cast<ImGuiCond>(cond.value_or(0)));
+			    },
+			    [](const std::string& name, const ImVec2& pos, sol::optional<int> cond) {
+				    return ImGui::SetWindowPos(name.c_str(), pos, static_cast<ImGuiCond>(cond.value_or(0)));
+			    });
+
+			/*@terminus.function ImGui.SetNextWindowSize
+			* param pos<Vector2>
+			* param cond<integer?> Optional [ImGuiCond](lua://ImGuiCond)
+			@*/
+			imguiTable["SetNextWindowPos"] = [](const ImVec2& pos, sol::optional<int> cond) {
+				return ImGui::SetNextWindowPos(pos, static_cast<ImGuiCond>(cond.value_or(0)));
+			};
+
+			/*@terminus.function ImGui.SetNextWindowSize
+			* param size<Vector2>
+			* param cond<integer?> Optional [ImGuiCond](lua://ImGuiCond)
+			@*/
+			imguiTable["SetNextWindowSize"] = [](const ImVec2& size, sol::optional<int> cond) {
+				return ImGui::SetNextWindowSize(size, static_cast<ImGuiCond>(cond.value_or(0)));
+			};
+
+			/*@terminus.function ImGui.SetNextWindowSizeConstraints
+			* param minSize<Vector2>
+			* param maxSize<Vector2>
+			@*/
+			imguiTable["SetNextWindowSizeConstraints"] = [](const ImVec2& minSz, const ImVec2& maxSz) {
+				return ImGui::SetNextWindowSizeConstraints(minSz, maxSz);
+			};
+
 			/*@terminus.function ImGui.SetNextItemWidth
 			* param width<number> Width of the next item.
 			@*/
@@ -1454,8 +1528,10 @@ namespace Terminus::LuaJIT
 			//////////////////////////////////////////////// custom widgets ////////////////////////////////////////////////
 
 			/*@terminus.function ImGui.Toggle Draws a toggle widget that can be used instead of a regular ImGui checkbox.
-			* param label<string> Tooltip text
-			* param v<boolean> Tooltip text
+			* param label<string>
+			* param v<boolean>
+			* return boolean value
+			* return boolean clicked
 			@*/
 
 			/*@terminus.function ImGui.Toggle Draws a toggle widget that can be used instead of a regular ImGui checkbox.

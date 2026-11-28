@@ -831,10 +831,10 @@ namespace Terminus
 
 	void Renderer::DX12OnPresentImpl()
 	{
-		Renderer::DX12NewFrame();
+		DX12NewFrame();
 		for (const auto& callback : m_RendererCallBacks | std::views::values)
 			callback();
-		Renderer::DX12EndFrame();
+		DX12EndFrame();
 	}
 
 	LRESULT Renderer::WndProcImpl(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

@@ -1,6 +1,7 @@
 #include "Menu.hpp"
 
 #include "core/commands/Commands.hpp"
+#include "core/commands/BoolCommand.hpp"
 #include "core/frontend/manager/UIManager.hpp"
 #include "core/renderer/Renderer.hpp"
 #include "game/backend/FiberPool.hpp"
@@ -22,6 +23,11 @@
 
 namespace Terminus
 {
+	namespace Features
+	{
+		BoolCommand _MoveableWindow("moveablewindow", "Moveable Window", "Allows you to drag and move the menu.");
+	}
+
 	void Menu::Init()
 	{
 		SetupFonts();
@@ -43,11 +49,15 @@ namespace Terminus
 			    if (!GUI::IsOpen())
 				    return;
 
+				int flags = ImGuiWindowFlags_NoDecoration;
+			    if (!Features::_MoveableWindow.GetState())
+				    flags |= ImGuiWindowFlags_NoMove;
+
 			    ImGui::PushFont(Font::g_DefaultFont);
 			    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImU32(ImColor(25, 25, 35)));
 
 			    ImGui::SetNextWindowSize(ImVec2((*Pointers.ScreenResX / 3.1), (*Pointers.ScreenResY / 1.5)), ImGuiCond_Once);
-			    if (ImGui::Begin("Terminus", nullptr, ImGuiWindowFlags_NoDecoration))
+			    if (ImGui::Begin("Terminus", nullptr, flags))
 			    {
 				    if (ImGui::Button("Unload", ImVec2(120, 0)))
 				    {

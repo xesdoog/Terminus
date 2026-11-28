@@ -15,6 +15,41 @@
 
 namespace Terminus
 {
+	static std::vector<Hash> controlsToDisable{
+	    (Hash)NativeInputs::INPUT_LOOK_LR,
+	    (Hash)NativeInputs::INPUT_LOOK_UD,
+	    (Hash)NativeInputs::INPUT_AIM,
+	    (Hash)NativeInputs::INPUT_MELEE_ATTACK,
+	    (Hash)NativeInputs::INPUT_VEH_DRIVE_LOOK,
+	    (Hash)NativeInputs::INPUT_VEH_AIM,
+	    (Hash)NativeInputs::INPUT_VEH_ATTACK,
+	    (Hash)NativeInputs::INPUT_VEH_ATTACK2,
+	    (Hash)NativeInputs::INPUT_VEH_PASSENGER_AIM,
+	    (Hash)NativeInputs::INPUT_VEH_PASSENGER_ATTACK,
+	    (Hash)NativeInputs::INPUT_HORSE_AIM,
+	    (Hash)NativeInputs::INPUT_HORSE_ATTACK,
+	    (Hash)NativeInputs::INPUT_HORSE_ATTACK2,
+	    (Hash)NativeInputs::INPUT_HORSE_GUN_LR,
+	    (Hash)NativeInputs::INPUT_HORSE_GUN_UD,
+	    (Hash)NativeInputs::INPUT_VEH_DRIVE_LOOK2,
+	    (Hash)NativeInputs::INPUT_ATTACK,
+	    (Hash)NativeInputs::INPUT_ATTACK2,
+	    (Hash)NativeInputs::INPUT_NEXT_WEAPON,
+	    (Hash)NativeInputs::INPUT_PREV_WEAPON,
+	    (Hash)NativeInputs::INPUT_VEH_CAR_AIM,
+	    (Hash)NativeInputs::INPUT_VEH_CAR_ATTACK,
+	    (Hash)NativeInputs::INPUT_VEH_CAR_ATTACK2,
+	    (Hash)NativeInputs::INPUT_VEH_CAR_ATTACK2,
+	    (Hash)NativeInputs::INPUT_VEH_BOAT_AIM,
+	    (Hash)NativeInputs::INPUT_VEH_BOAT_ATTACK,
+	    (Hash)NativeInputs::INPUT_VEH_BOAT_ATTACK2,
+	    (Hash)NativeInputs::INPUT_VEH_FLY_ATTACK,
+	    (Hash)NativeInputs::INPUT_VEH_FLY_ATTACK2,
+	    (Hash)NativeInputs::INPUT_VEH_FLY_ATTACK_CAMERA,
+	    (Hash)NativeInputs::INPUT_VEH_DRAFT_ATTACK,
+	    (Hash)NativeInputs::INPUT_VEH_DRAFT_ATTACK2,
+	};
+
 	void SpectateTick()
 	{
 		if (g_SpectateId != Players::GetSelected().GetId() && g_Spectating)
@@ -81,41 +116,16 @@ namespace Terminus
 	{
 		while (g_Running)
 		{
-			if (GUI::IsOpen())
+			if (GUI::IsOpen() || GUI::IsMouseOverridden() /* for Lua mouse overrides */)
 			{
-				PLAYER::DISABLE_PLAYER_FIRING(PLAYER::PLAYER_ID(), TRUE);
-
 				if (GUI::IsUsingKeyboard())
 				{
 					PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 				}
 				else
 				{
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_LOOK_LR, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_LOOK_UD, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_AIM, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_MELEE_ATTACK, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_DRIVE_LOOK, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_AIM, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_ATTACK, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_ATTACK2, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_HORSE_AIM, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_HORSE_ATTACK, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_HORSE_ATTACK2, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_HORSE_GUN_LR, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_HORSE_GUN_UD, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_DRIVE_LOOK2, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_ATTACK, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_ATTACK2, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_NEXT_WEAPON, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_PREV_WEAPON, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_CAR_AIM, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_CAR_ATTACK, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_CAR_ATTACK2, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_CAR_ATTACK2, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_BOAT_AIM, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_BOAT_ATTACK, 1);
-					PAD::DISABLE_CONTROL_ACTION(0, (Hash)NativeInputs::INPUT_VEH_BOAT_ATTACK2, 1);
+					for (const auto& control : controlsToDisable)
+						PAD::DISABLE_CONTROL_ACTION(0, control, 1);
 				}
 			}
 

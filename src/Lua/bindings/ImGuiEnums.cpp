@@ -17,6 +17,20 @@ namespace Terminus::LuaJIT
 		{
 			// clang-format off
 
+			/*@terminus.enum ImGuiCond
+			* field None<integer> No condition (always set the variable), same as _Always
+			* field Always<integer> No condition (always set the variable), same as _None
+			* field Once<integer> Set the variable once per runtime session (only the first call will succeed)
+			* field FirstUseEver<integer> Set the variable if the object/window has no persistently saved data (no entry in .ini file)
+			* field Appearing<integer> Set the variable if the object/window is appearing after being hidden/inactive (or the first time)
+			@*/
+			L.new_enum("ImGuiCond",
+				"None", ImGuiCond_None,
+				"Always", ImGuiCond_Always,
+				"Once", ImGuiCond_Once,
+				"FirstUseEver", ImGuiCond_FirstUseEver,
+				"Appearing", ImGuiCond_Appearing);
+
 			/*@terminus.enum ImGuiSeparatorFlags
 			* field None<integer>
 			* field Horizontal<integer> Axis default to current layout type, so generally Horizontal unless e.g. in a menu bar

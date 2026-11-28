@@ -6,6 +6,7 @@
 #include "core/renderer/Renderer.hpp"
 #include "core/frontend/Notifications.hpp"
 #include "game/frontend/ChatDisplay.hpp"
+#include "Lua/LuaMgr.hpp"
 
 namespace Terminus
 {
@@ -42,6 +43,12 @@ namespace Terminus
 			    Overlay::Draw();
 		    },
 		    -6);
+		Renderer::AddRendererCallBack(
+		    [&] {
+			    for (const auto& m : LuaJIT::LuaManager::GetModules())
+				    m->DrawIndependentGuis();
+		    },
+		    -7);
 	}
 
 	GUI::~GUI()
@@ -53,6 +60,25 @@ namespace Terminus
 		auto& io           = ImGui::GetIO();
 		io.MouseDrawCursor = GUI::IsOpen();
 		GUI::IsOpen() ? io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse : io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+	}
+
+	void GUI::OverrideMouse(bool state)
+	{
+		if (!ImGui::GetCurrentContext())
+			return;
+
+		auto& io           = ImGui::GetIO();
+		io.MouseDrawCursor = state;
+		state ? io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse : io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+	}
+
+	bool GUI::IsMouseOverridden()
+	{
+		if (!ImGui::GetCurrentContext())
+			return false;
+
+		auto& io = ImGui::GetIO();
+		return io.MouseDrawCursor == true && (io.ConfigFlags & ImGuiConfigFlags_NoMouse) == 0;
 	}
 
 	void GUI::WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

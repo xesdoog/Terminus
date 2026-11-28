@@ -75,26 +75,10 @@ namespace Terminus::LuaJIT
 			* param event<eMenuEvent.ChatMessageReceived> The event to handle.
 			* param callback<fun(playerId: integer, chatMsg: string)> The function to execute.		
 			@*/
-			menu["RegisterEventHandler"] = [&](int evnt, sol::protected_function func) {
-				if (auto mod = GetModuleFromLuaState(L))
+			menu["RegisterEventHandler"] = [](int evnt, sol::protected_function func, sol::this_state s) {
+				sol::state_view lua(s);
+				if (auto mod = GetModuleFromLuaState(lua))
 					mod->m_MenuEventCallbacks[static_cast<eMenuEvent>(evnt)].push_back(std::move(func));
-			};
-
-			/*@terminus.function Menu.RegisterImGui Registers an ImGui function to be drawn in the menu.~~NOTE: This is currently a work in progress and each script is only allowed one callback registration.
-			* param callback<function>
-			@*/
-			menu["RegisterImGui"] = [&](sol::protected_function func) {
-				auto mod = GetModuleFromLuaState(L);
-				if (!mod)
-					return;
-
-				if (mod->m_GuiCallback.valid())
-				{
-					LOGF(WARNING, "Module '{}' already has an ImGui callback!", mod->GetName());
-					return;
-				}
-
-				mod->m_GuiCallback = std::move(func);
 			};
 
 			/*@terminus.function Menu.GetSelectedPlayer
@@ -107,8 +91,9 @@ namespace Terminus::LuaJIT
 			/*@terminus.function Menu.UnloadThisModule Unloads the caller script.
 			* 
 			@*/
-			menu["UnloadThisModule"] = [&]() {
-				if (auto mod = GetModuleFromLuaState(L))
+			menu["UnloadThisModule"] = [](sol::this_state s) {
+				sol::state_view lua(s);
+				if (auto mod = GetModuleFromLuaState(lua))
 					mod->m_UnloadFromCode = true;
 			};
 		}

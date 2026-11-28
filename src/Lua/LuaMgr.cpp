@@ -39,12 +39,8 @@ namespace Terminus::LuaJIT
 
 	void LuaManager::RegisterLibrariesImpl(sol::state& L)
 	{
-		int count = 0;
-		for (auto library : m_Libraries)
-		{
-			count += 1;
+		for (const auto& library : m_Libraries)
 			library->Register(L);
-		}
 	}
 
 	void LuaManager::LoadModuleImpl(const fs::path& root)
@@ -230,7 +226,7 @@ namespace Terminus::LuaJIT
 
 	void LuaManager::TickScriptsImpl()
 	{
-		for (auto& m : m_Modules)
+		for (const auto& m : m_Modules)
 		{
 			if (m->GetLoadState() == LuaModule::RUNNING)
 				m->Tick();

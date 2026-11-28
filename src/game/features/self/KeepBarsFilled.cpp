@@ -18,20 +18,23 @@ namespace Terminus::Features
 			if (!ped || ped.IsDead())
 				return;
 
+			int player_id    = Self::GetPlayer().GetId();
 			auto health_bar  = ped.GetHealth();
-			auto stamina_bar = PLAYER::_GET_PLAYER_STAMINA(Self::GetPlayer().GetId());
-			auto deadeye_bar = PLAYER::_GET_PLAYER_DEAD_EYE(Self::GetPlayer().GetId());
+			auto stamina_bar = PLAYER::_GET_PLAYER_STAMINA(player_id);
+			auto deadeye_bar = PLAYER::_GET_PLAYER_DEAD_EYE(player_id);
 
-			if (health_bar < ped.GetMaxHealth() && _Health.GetState())
-				ped.SetHealth(ped.GetMaxHealth());
-			if (stamina_bar < PED::_GET_PED_MAX_STAMINA(ped.GetHandle()) && _Stamina.GetState())
-				PED::_CHANGE_PED_STAMINA(ped.GetHandle(), PED::_GET_PED_MAX_STAMINA(ped.GetHandle()) - stamina_bar);
-			if (deadeye_bar < PLAYER::_GET_PLAYER_MAX_DEAD_EYE(Self::GetPlayer().GetId(), 0) && _Deadeye.GetState())
-				PLAYER::_SPECIAL_ABILITY_RESTORE_BY_AMOUNT(Self::GetPlayer().GetId(),
-				    PLAYER::_GET_PLAYER_MAX_DEAD_EYE(Self::GetPlayer().GetId(), false),
-				    0,
-				    0,
-				    1);
+			auto max_health  = ped.GetMaxHealth();
+			auto max_stamina = PED::_GET_PED_MAX_STAMINA(ped.GetHandle());
+			auto max_deadeye = PLAYER::_GET_PLAYER_MAX_DEAD_EYE(player_id, false);
+
+			if (health_bar < max_health && _Health.GetState())
+				ped.SetHealth(max_health);
+
+			if (stamina_bar < max_stamina && _Stamina.GetState())
+				PED::_CHANGE_PED_STAMINA(ped.GetHandle(), max_stamina - stamina_bar);
+
+			if (deadeye_bar < max_deadeye && _Deadeye.GetState())
+				PLAYER::_SPECIAL_ABILITY_RESTORE_BY_AMOUNT(player_id, max_deadeye, 0, 0, 1);
 		}
 	};
 
